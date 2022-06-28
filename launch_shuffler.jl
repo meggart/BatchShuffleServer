@@ -1,3 +1,4 @@
+#/usr/bin/bash julia
 using DiskArrayShufflers
 using YAXArrays, EarthDataLab
 using DiskArrays, Zarr

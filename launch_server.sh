@@ -3,10 +3,10 @@ path_to_cube="https://s3.bgc-jena.mpg.de:9000/esdl-esdc-v2.1.1/esdc-8d-0.25deg-1
 vars_to_include="gross_primary,leaf_area,air_temperature"
 start_year=2001
 end_year=2016
-repeats_per_collection=10
+repeats_per_collection=20
 batchsize=100
 nchunks=10
-ip="141.5.17.118"
+ip="127.0.0.1"
 port=9052
 
-julia --project test_shuffler.jl $path_to_cube -v $vars_to_include -s $start_year -e $end_year -r $repeats_per_collection -b $batchsize -n $nchunks --ip $ip -p $port
+docker run -p 9052:9052 batchshuffler $path_to_cube -v $vars_to_include -s $start_year -e $end_year -r $repeats_per_collection -b $batchsize -n $nchunks --ip $ip -p $port
