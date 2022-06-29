@@ -6,7 +6,7 @@ end_year=2016
 repeats_per_collection=20
 batchsize=100
 nchunks=10
-ip="127.0.0.1"
+ip="0.0.0.0"
 port=9052
 
 docker run -p 9052:9052 batchshuffler $path_to_cube -v $vars_to_include -s $start_year -e $end_year -r $repeats_per_collection -b $batchsize -n $nchunks --ip $ip -p $port
