@@ -45,6 +45,10 @@ function parse_commandline()
             help = "Port to use for server"
             arg_type = Int
             required=true
+        "--fillvalue", "-f"
+            help = "Fill value to use for the server"
+            arg_type = Union{String,Nothing}
+            default = nothing
     end
 
     return parse_args(s)
@@ -71,6 +75,11 @@ g = zopen(path_to_cube, fill_as_missing=false)
 
 c = Cube(YAXArrays.open_dataset(g))
 
+fv = parsed_args["fillvalue"]
+if !isnothing(fv)
+    fv = parse(eltype(c),fv)
+end
+
 c = c[time=start_year:end_year]
 
 c = isempty(vars_to_include) ? c : c[var=vars_to_include]
@@ -91,7 +100,7 @@ sampler = FullSliceSampler(itime,ivar,batchespercoll=repeats_per_collection,batc
 shuffler = DiskArrayShuffler(sharear, sampler; chunks = DiskArrays.GridChunks(newchunks...));
 
 
-store = DiskArrayShuffleStore(shuffler);
+store = DiskArrayShuffleStore(shuffler,fill_value=fv);
 
 
 import HTTP
